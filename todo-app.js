@@ -73,7 +73,7 @@ document.querySelector('#new-todo').addEventListener('submit', function(e){
     e.target.elements.text.value = ''
 })
 
-console.log(addP)
+
 
 
 
