@@ -1,83 +1,64 @@
 const todos = [{
-    text: 'Take a shower',
+    text: 'Bench Press',
     completed: true
 }, {
-    text: 'Commute to the office',
+    text: 'Cable Press',
+    completed: true
+}, {
+    text: 'Shoulder Press',
     completed: false
 }, {
-    text: 'Call to clients',
-    completed: true
-}, {
-    text: 'Workout at Golds',
-    completed: true
+    text: 'Deadlift',
+    completed: false
  }, {
-    text: 'Get some proteins',
+    text: 'Squat',
     completed: false
  }]
 
- // 1. Setup a div contain for todos
- // 2. Setup filters (searchText) and write up a new filter input to change it
- // 3. Create a renderTodos function to render and rerenber the latest filterd data. 
-
-
-const filters = {
+ const filters = {
     searchText: ''
-}
+ }
 
-const incompletedTodos = todos.filter(function (todo) {
-    return todo.completed === false
-})
+ const renderTodos = function (todos, filters) {
+     const filteredTodos = todos.filter(function (todo){
+        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+     })
 
-const addP = document.createElement('p')
-addP.textContent = `You have ${incompletedTodos.length} things to do left.`
-document.querySelector('h2').appendChild(addP)
+     const numberOfFalse = filteredTodos.filter(function (todo){
+        return todo.completed === false
+     })
 
+     document.querySelector('h2').innerHTML = ''
+     
+     document.querySelector('#todo-lists').innerHTML = ''
 
-const todoLists = todos.forEach(function (todo) {
-    // if (todo.completed === false) {
+     const summary = document.createElement('P')
+     summary.textContent = `You have ${numberOfFalse.length} things to finish today!`
+     document.querySelector('h2').appendChild(summary)
+
+     filteredTodos.forEach(function (todo){
         const addP = document.createElement('p')
         addP.textContent = todo.text
-        document.querySelector('#todos').appendChild(addP)
-    // }
-})
+        document.querySelector('#todo-lists').appendChild(addP)
+     })
 
-const renderTodos = function (todos, filters) {
-    const filteredTodos = todos.filter(function (todo){
-        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
-    })
+ }
 
-    document.querySelector('#todos').innerHTML = ''
+ renderTodos(todos, filters)
 
-    filteredTodos.forEach(function (todo) {
-            const addP = document.createElement('p')
-            addP.textContent = todo.text
-            document.querySelector('#todos').appendChild(addP)
-    
-    })
-
-}
-
-document.querySelector('#todo-text').addEventListener('input', function(e){
+ document.querySelector('#search-box').addEventListener('input', function (e){
     filters.searchText = e.target.value
     renderTodos(todos, filters)
-})
+ })
 
-document.querySelector('#new-todo').addEventListener('submit', function(e){
+ document.querySelector('#new-todo').addEventListener('submit', function (e){
     e.preventDefault()
-    todos.push({
+    todos.push ({
         text: e.target.elements.text.value,
         completed: false
     })
 
     renderTodos(todos, filters)
     e.target.elements.text.value = ''
-})
-
-
-
-
-
-
-
-
+ })
 
